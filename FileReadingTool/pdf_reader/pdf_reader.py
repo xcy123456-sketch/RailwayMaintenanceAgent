@@ -43,6 +43,8 @@ with pdfplumber.open(file_dir) as pdf:
 
             # 单独保存
             img.save(os.path.join(current_dir, "result/table", f"table_{page_num}_{i}.png"))
+        texts = page_n.extract_text()
+        
 
 
     # page_table_list = page_n.extract_tables()
