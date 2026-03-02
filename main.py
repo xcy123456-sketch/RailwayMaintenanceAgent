@@ -7,7 +7,7 @@ import dotenv
 import os
 
 os.environ["DASHSCOPE_API_KEY"] = dotenv.get_key(dotenv.find_dotenv(), "DASHSCOPE_API_KEY")
-    
+
 @tool
 def get_weather(city:str) -> str:
     ''' Dummy implementation for weather retrieval
