@@ -7,3 +7,12 @@
 ```bash
 docker exec -it neo4j bash -lc "cp /var/lib/neo4j/labs/*apoc*core*.jar /plugins/ 2>/dev/null || cp /labs/*apoc*core*.jar /plugins/"
 ```
+4. 清理旧容器
+```bash
+docker compose down -v
+```
+5. 重启
+```bash
+docker compose up -d
+```
+> 直接运行可能会出现未连接数据库的情况，因为数据库还在加载，稍等片刻即可。

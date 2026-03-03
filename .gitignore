@@ -1,6 +1,4 @@
 .env
 FileReadingTool/pdf_reader/result
 .venv
-logs
-data
-conf
+neo4j_files
