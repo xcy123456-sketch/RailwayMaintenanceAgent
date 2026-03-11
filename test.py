@@ -32,24 +32,26 @@ def tool_graph_initializer():
 
 from pydantic import BaseModel, Field
 from typing_extensions import TypedDict, Dict, List, Any
+import uuid
 
-class KGNode(BaseModel):
-    id: str = Field(..., description="子图内唯一ID，例如 n1, n2")
+class KGNodeExtract(BaseModel): # 节点类
+    # id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
     type: str
-    aliases: List[str] = Field(default_factory=list)
-    attrs: Dict[str, Any] = Field(default_factory=dict)
+    # aliases: List[str] = Field(default_factory=list)
+    # attrs: Dict[str, Any] = Field(default_factory=dict)
 
-class KGEdge(BaseModel):
+class KGEdge(BaseModel): # 边类
     source: str
     target: str
     type: str
-    confidence: float = Field(..., ge=0.0, le=1.0)
-    evidence: str = Field(..., description="支撑该关系的原句/片段")
-    attrs: Dict[str, Any] = Field(default_factory=dict)
+    # confidence: float = Field(..., ge=0.0, le=1.0)
+    # evidence: str = Field(..., description="支撑该关系的原句/片段")
+    # attrs: Dict[str, Any] = Field(default_factory=dict)
 
 class Subgraph(BaseModel):
-    nodes: List[KGNode]
+    """Extract graph from text."""
+    nodes: List[KGNodeExtract]
     edges: List[KGEdge]
     meta: Dict[str, Any] = Field(default_factory=dict)
 
@@ -57,11 +59,15 @@ class State(TypedDict):
     subgraph: Subgraph
     validity: bool
 
-
+from langchain_core.prompts import ChatPromptTemplate
 # 大模型抽取子图
+subgraph_extractor_prompt = ChatPromptTemplate.from_template(
+     "Analyze this text and extract the knowledge diagram.\n\nText: {text}"
+)
+subgraph_extractor_chain = subgraph_extractor_prompt | llm.with_structured_output(Subgraph)
+
 def subgraph_extractor(State):
-    # TODO
-    pass
+    return 
 
 def graph_validator(State):
     # TODO
@@ -89,3 +95,7 @@ png = chain.get_graph().draw_mermaid_png()
 with open("workflow.png", "wb") as f:
     f.write(png)
 
+print("cnm")
+result = subgraph_extractor_chain.invoke({"text": """
+我不知道他要干什么"""})
+print(result)
