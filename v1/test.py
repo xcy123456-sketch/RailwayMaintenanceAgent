@@ -10,7 +10,7 @@ graph = Neo4jGraph(
     password=os.environ["NEO4J_PASSWORD"],
 )
 
-from agent_lib import gpt_llm
+from v1.agent_lib import gpt_llm
 llm = gpt_llm
 
 # 智能体初始化

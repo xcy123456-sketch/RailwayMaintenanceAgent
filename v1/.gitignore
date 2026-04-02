@@ -1,0 +1,4 @@
+.env
+FileReadingTool/pdf_reader/result
+.venv
+neo4j_files

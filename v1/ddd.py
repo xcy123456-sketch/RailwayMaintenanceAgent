@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 from typing import Optional
-from agent_lib import qianwen_llm
+from v1.agent_lib import qianwen_llm
 
 # Step 1: Create prompt template
 prompt = ChatPromptTemplate.from_template(

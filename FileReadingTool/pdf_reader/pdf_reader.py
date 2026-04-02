@@ -29,21 +29,21 @@ pdf_list = get_all_pdfs(pdf_file_path)
 # 测试
 file_dir = os.path.join(pdf_file_path, "《高速铁路线路维修规则》（铁工电〔2023〕106号）.pdf")
 
-with pdfplumber.open(file_dir) as pdf:
-    for page_num in range(pdf.pages.__len__()):
-        page_n = pdf.pages[page_num] # 第一页
-        tables = page_n.find_tables()
-        for i, table in enumerate(tables):
-            bbox = table.bbox
-            # 裁剪表格区域
-            cropped_page = page_n.crop([bbox[0], bbox[1]-50, bbox[2], bbox[3]])
+# with pdfplumber.open(file_dir) as pdf:
+#     for page_num in range(pdf.pages.__len__()):
+#         page_n = pdf.pages[page_num] # 第一页
+#         tables = page_n.find_tables()
+#         for i, table in enumerate(tables):
+#             bbox = table.bbox
+#             # 裁剪表格区域
+#             cropped_page = page_n.crop([bbox[0], bbox[1]-50, bbox[2], bbox[3]])
 
-            # 转成图片
-            img = cropped_page.to_image(resolution=300)
+#             # 转成图片
+#             img = cropped_page.to_image(resolution=300)
 
-            # 单独保存
-            img.save(os.path.join(current_dir, "result/table", f"table_{page_num}_{i}.png"))
-        texts = page_n.extract_text()
+#             # 单独保存
+#             img.save(os.path.join(current_dir, "result/table", f"table_{page_num}_{i}.png"))
+#         texts = page_n.extract_text()
         
 
 
@@ -64,6 +64,13 @@ with pdfplumber.open(file_dir) as pdf:
 #         for page in pdf.pages:
 #             if page.extract_tables():
 #                 print(page.extract_tables())
+
+for pdf in pdf_list:
+    file_dir = os.path.join(pdf_file_path, pdf.name)
+    with pdfplumber.open(file_dir) as pdf:
+        page_n = pdf.pages[50] # 第一页
+        texts = page_n.extract_text()
+        print(texts)
 
 # if __name__=="__main__":
 #     # 一下wz
